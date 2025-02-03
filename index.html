@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Promoção: 2 Lanches por R$19,90</title>
+    <!-- Importando Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Estilos gerais */
+      .selected {
+        border: 4px solid #fbbf24;
+      }
+      .card {
+        position: relative;
+      }
+      .badge {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: #fbbf24;
+        color: white;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: bold;
+      }
+      :root {
+        --logo-height: 4rem;
+      }
+      .logo-size {
+        height: var(--logo-height);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Cabeçalho -->
+    <header
+      class="flex items-center justify-between gap-2 md:min-h-[8rem] p-4 bg-white shadow-md"
+    >
+      <!-- Logo à esquerda -->
+      <div class="flex items-center gap-2">
+        <img
+          src="imagens/logo-mc-m.png"
+          class="logo-size"
+          alt="Logo McDonald's"
+        />
+      </div>
+      <!-- Carrinho e botão Entrar -->
+      <div id="header-tooltip" class="flex items-center gap-4">
+        <p id="cartPrice" class="text-lg font-bold">R$ 0,00</p>
+        <div class="relative">
+          <img
+            src="imagens/icone-sacola-mc.svg"
+            class="block max-h-[1.5rem] min-h-[1.5rem] min-w-[1.25rem] max-w-[1.25rem] md:min-h-[2.25rem] md:min-w-[1.75rem]"
+            alt="Cart"
+          />
+          <div
+            class="absolute -right-2 -top-2 grid h-4 w-4 place-content-center rounded-full bg-red-500 text-xs text-white"
+          >
+            <span id="cartBadge">0</span>
+          </div>
+        </div>
+        <a href="#" rel="noopener noreferrer">
+          <button
+            class="hidden md:block h-10 w-36 bg-red-600 text-white font-bold rounded"
+          >
+            Entrar
+          </button>
+        </a>
+      </div>
+    </header>
+
+    <img
+      src="imagens/banner-mc-01.png"
+      alt="Banner Promocional"
+      class="w-full"
+    />
+
+    <!-- Seção de Sanduíches -->
+    <section class="m-5 md:m-14">
+      <header class="my-4 md:my-8">
+        <h1
+          class="text-[30px] font-bold leading-[36px]"
+          style="font-family: 'Speedee', sans-serif"
+        >
+          Sanduíches
+        </h1>
+      </header>
+      <!-- Grid de lanches (2 colunas) -->
+      <div class="grid grid-cols-2 gap-5">
+        <!-- Card 2: Big Mac -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="2"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/big-mac.png"
+              alt="Big Mac"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Big Mac</p>
+            <p class="text-sm text-gray-600">
+              Dois hambúrgueres, molho especial e o sabor original!
+            </p>
+          </div>
+        </div>
+        <!-- Card 1: Big Mac Bacon -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="1"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/big-mac-bacon.png"
+              alt="Big Mac Bacon"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Big Mac Bacon</p>
+            <p class="text-sm text-gray-600">
+              O clássico com um toque de bacon crocante!
+            </p>
+          </div>
+        </div>
+        <!-- Card 3: Quarteirão com Queijo -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="3"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/quarteirão-com-queijo.png"
+              alt="Quarteirão com Queijo"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Quarteirão com Queijo</p>
+            <p class="text-sm text-gray-600">
+              Carne suculenta com queijo derretido em perfeita harmonia.
+            </p>
+          </div>
+        </div>
+        <!-- Card 4: Cheddar McMelt -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="4"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Cheddar-McMelt.png"
+              alt="Cheddar McMelt"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Cheddar McMelt</p>
+            <p class="text-sm text-gray-600">
+              Queijo cheddar no auge do sabor para uma experiência única.
+            </p>
+          </div>
+        </div>
+        <!-- Card 5: Mc Chicken -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="5"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Mc-Chicken.png"
+              alt="Mc Chicken"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Mc Chicken</p>
+            <p class="text-sm text-gray-600">
+              Frango empanado crocante com maionese especial.
+            </p>
+          </div>
+        </div>
+        <!-- Card 6: Mc Chicken Lemon-Pepper -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="6"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Mc-Chicken Lemon-Pepper.png"
+              alt="Mc Chicken Lemon-Pepper"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Mc Chicken Lemon-Pepper</p>
+            <p class="text-sm text-gray-600">
+              Um toque cítrico e apimentado que surpreende seu paladar.
+            </p>
+          </div>
+        </div>
+        <!-- Card 7: Mc Nífico Bacon -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="7"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Mc-Nífico-Bacon.png"
+              alt="Mc Nífico Bacon"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Mc Nífico Bacon</p>
+            <p class="text-sm text-gray-600">
+              Hambúrguer premium com bacon irresistivelmente crocante.
+            </p>
+          </div>
+        </div>
+        <!-- Card 8: Duplo Burger Bacon -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="8"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Duplo-Burger-Bacon.png"
+              alt="Duplo Burger Bacon"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Duplo Burger Bacon</p>
+            <p class="text-sm text-gray-600">
+              Dobro de sabor com bacon extra crocante.
+            </p>
+          </div>
+        </div>
+        <!-- Card 13: hamburguer -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="13"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/hamburguer.png"
+              alt="hamburguer"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">hamburguer</p>
+            <p class="text-sm text-gray-600">
+              O Hambúrguer Original: carne suculenta, queijo derretido e o molho
+              que conquista a cada mordida!
+            </p>
+          </div>
+        </div>
+        <!-- Card 9: Cheeseburger -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="9"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Cheeseburger.png"
+              alt="Cheeseburger"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Cheeseburger</p>
+            <p class="text-sm text-gray-600">
+              Clássico com queijo derretido na medida certa.
+            </p>
+          </div>
+        </div>
+        <!-- Card 10: Chicken Jr -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="10"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Chicken-Jr.png"
+              alt="Chicken Jr"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Chicken Jr</p>
+            <p class="text-sm text-gray-600">
+              Pequeno no tamanho, gigante no sabor!
+            </p>
+          </div>
+        </div>
+        <!-- Card 11: Mc Crispy Chicken Legend -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="11"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Mc-Crispy-Chicken-Legend.png"
+              alt="Mc Crispy Chicken Legend"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Mc Crispy Chicken Legend</p>
+            <p class="text-sm text-gray-600">
+              O frango mais crocante que você já experimentou.
+            </p>
+          </div>
+        </div>
+        <!-- Card 12: Tasty Turbo Queijo -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="12"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Tasty-Turbo-Queijo.png"
+              alt="Tasty Turbo Queijo"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Tasty Turbo Queijo</p>
+            <p class="text-sm text-gray-600">
+              Queijo derretido e molho especial em um turbo de sabor!
+            </p>
+          </div>
+        </div>
+        <!-- Card 13: Novo Brabo Melt Onion Rings -->
+        <div
+          class="card hover:scale-105 transition flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg"
+          data-id="13"
+          data-count="0"
+        >
+          <div
+            class="flex h-full max-h-36 items-end justify-center bg-gray-200 md:max-h-60"
+          >
+            <img
+              src="imagens/Novo-Brabo-Melt-Onion-Rings.png"
+              alt="Novo Brabo Melt Onion Rings"
+              class="mb-6 h-4/5 w-auto object-contain md:h-3/5"
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-2 p-3 md:p-4"
+          >
+            <p class="font-bold text-red-600">Novo Brabo Melt Onion Rings</p>
+            <p class="text-sm text-gray-600">
+              Cebolas empanadas e queijo cremoso em um combo surpreendente!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <br />
+    <!-- Botão Finalizar Pedido com position: sticky (fica abaixo dos últimos lanches) -->
+    <button
+      id="finalizarPedido"
+      class="hidden sticky bottom-4 mx-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center gap-2 shadow-lg"
+    >
+      <img
+        src="https://marcas-logos.net/wp-content/uploads/2020/02/McDonalds-logo-1.png"
+        alt="Logo"
+        class="h-6 w-auto"
+      />
+      Finalizar Pedido R$: 19,90
+    </button>
+    <br />
+    <!-- Rodapé -->
+    <footer class="bg-red-600 text-white text-center p-4">
+      <img
+        src="imagens/logo-mc-skate.png"
+        alt="Rodapé McDonald's"
+        class="mx-auto w-32 h-auto"
+      />
+      <p class="mt-2 text-sm">
+        © 2025 McDonald's - Todos os direitos reservados
+      </p>
+    </footer>
+    <!-- Lógica de seleção, badges e atualização do preço -->
+    <script>
+      function getGlobalTotal() {
+        let total = 0;
+        document.querySelectorAll(".card").forEach((card) => {
+          total += parseInt(card.getAttribute("data-count")) || 0;
+        });
+        return total;
+      }
+      function updateCartPrice() {
+        const total = getGlobalTotal();
+        const cartPriceElem = document.getElementById("cartPrice");
+        if (total === 1) {
+          cartPriceElem.innerText = "R$ 9,95";
+        } else if (total === 2) {
+          cartPriceElem.innerText = "R$ 19,90";
+        } else {
+          cartPriceElem.innerText = "R$ 0,00";
+        }
+        document.getElementById("cartBadge").innerText = total;
+      }
+      function updateBadges() {
+        document.querySelectorAll(".card").forEach((card) => {
+          const badge = card.querySelector(".badge");
+          const count = parseInt(card.getAttribute("data-count")) || 0;
+          if (badge) badge.remove();
+          if (count > 0) {
+            const newBadge = document.createElement("span");
+            newBadge.className = "badge";
+            newBadge.innerText = count;
+            card.appendChild(newBadge);
+          }
+        });
+      }
+      function toggleCard(card) {
+        let oldCount = parseInt(card.getAttribute("data-count")) || 0;
+        const globalTotal = getGlobalTotal();
+        let newCount = oldCount;
+        if (oldCount === 0) {
+          if (globalTotal < 2) {
+            newCount = 1;
+          } else {
+            return;
+          }
+        } else if (oldCount === 1) {
+          if (globalTotal < 2) {
+            newCount = 2;
+          } else {
+            newCount = 0;
+          }
+        } else if (oldCount === 2) {
+          newCount = 0;
+        }
+        card.setAttribute("data-count", newCount);
+      }
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", () => {
+          toggleCard(card);
+          updateBadges();
+          updateCartPrice();
+          if (getGlobalTotal() === 2) {
+            document
+              .getElementById("finalizarPedido")
+              .classList.remove("hidden");
+          } else {
+            document.getElementById("finalizarPedido").classList.add("hidden");
+          }
+        });
+      });
+      document
+        .getElementById("finalizarPedido")
+        .addEventListener("click", () => {
+          const selected = [];
+          document.querySelectorAll(".card").forEach((card) => {
+            const count = parseInt(card.getAttribute("data-count")) || 0;
+            if (count > 0) {
+              const lanche = card.querySelector("p.font-bold").innerText;
+              selected.push(`${lanche} (${count}x)`);
+            }
+          });
+          alert(
+            `Pedido finalizado:\n${selected.join("\n")}\nTotal: ${
+              document.getElementById("cartPrice").innerText
+            }`
+          );
+        });
+    </script>
+
+    <style>
+      /* Oculta o conteúdo da página até o preloader desaparecer */
+      #conteudo {
+        display: none;
+      }
+
+      /* Estilo do Preloader */
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #fff; /* Fundo branco */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      /* Ajuste do tamanho do GIF */
+      #preloader img {
+        width: 150px; /* Ajuste conforme necessário */
+      }
+    </style>
+
+    <!-- Preloader (GIF de carregamento) -->
+    <div id="preloader">
+      <img src="imagens/gif-carregamento-02.gif" alt="Carregando..." />
+    </div>
+
+    <script>
+      // Aguarda 3.5 segundos antes de esconder o preloader e mostrar a página
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          document.getElementById("preloader").style.display = "none";
+          document.getElementById("conteudo").style.display = "block";
+        }, 3500);
+      });
+    </script>
+  </body>
+</html>
