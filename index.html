@@ -35,6 +35,30 @@
       .logo-size {
         height: var(--logo-height);
       }
+      /* Preloader */
+      #conteudo {
+        display: none;
+      }
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      #preloader img {
+        width: 150px;
+      }
+      /* Modal (popup) para upsell de bebida */
+      #popupModal {
+        /* Inicialmente oculto */
+        display: none;
+      }
     </style>
   </head>
   <body class="bg-gray-100">
@@ -433,16 +457,12 @@
       </div>
     </section>
     <br />
-    <!-- Botão Finalizar Pedido com position: sticky (fica abaixo dos últimos lanches) -->
+    <!-- Botão Finalizar Pedido (sticky) -->
     <button
       id="finalizarPedido"
       class="hidden sticky bottom-4 mx-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center gap-2 shadow-lg"
     >
-      <img
-        src="https://marcas-logos.net/wp-content/uploads/2020/02/McDonalds-logo-1.png"
-        alt="Logo"
-        class="h-6 w-auto"
-      />
+      <img src="imagens/logo-mc-m.png" alt="Logo" class="h-6 w-auto" />
       Finalizar Pedido R$: 19,90
     </button>
     <br />
@@ -457,7 +477,8 @@
         © 2025 McDonald's - Todos os direitos reservados
       </p>
     </footer>
-    <!-- Lógica de seleção, badges e atualização do preço -->
+
+    <!-- Lógica de seleção, badges e atualização do preço dos lanches -->
     <script>
       function getGlobalTotal() {
         let total = 0;
@@ -491,18 +512,24 @@
           }
         });
       }
+      // Função para alternar (toggle) a contagem do card clicado
       function toggleCard(card) {
         let oldCount = parseInt(card.getAttribute("data-count")) || 0;
         const globalTotal = getGlobalTotal();
+        // Calcula a soma dos lanches dos outros cards (excluindo o atual)
+        const otherTotal = globalTotal - oldCount;
         let newCount = oldCount;
+
         if (oldCount === 0) {
-          if (globalTotal < 2) {
+          // Se este card está em 0 e os outros somam menos que 2, seta 1
+          if (otherTotal < 2) {
             newCount = 1;
           } else {
             return;
           }
         } else if (oldCount === 1) {
-          if (globalTotal < 2) {
+          // Se este card já está em 1, só incrementa para 2 se nenhum outro lanche estiver selecionado; caso contrário, reseta para 0
+          if (otherTotal === 0) {
             newCount = 2;
           } else {
             newCount = 0;
@@ -512,8 +539,11 @@
         }
         card.setAttribute("data-count", newCount);
       }
+
+      // Substitua o listener de clique para incluir event.stopPropagation()
       document.querySelectorAll(".card").forEach((card) => {
-        card.addEventListener("click", () => {
+        card.addEventListener("click", (event) => {
+          event.stopPropagation(); // Evita que o clique seja propagado para elementos filhos
           toggleCard(card);
           updateBadges();
           updateCartPrice();
@@ -526,31 +556,492 @@
           }
         });
       });
+      // Removemos o alert do finalize para utilizar o popup de bebidas
+      // function finalizeOrder(beverage) { ... } será chamada depois no contexto do popup
+    </script>
+
+    <!-- Modal (popup) para upsell de bebida com layout "foto - nome - preço - | +", valor final e link de checkout -->
+    <div
+      id="popupModal"
+      class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+      style="display: none"
+    >
+      <div class="bg-white rounded p-6 w-96">
+        <h2 class="text-xl font-bold mb-4">Adicionar Bebida?</h2>
+        <p class="mb-4">Selecione uma bebida (500 ml) por R$ 6,90</p>
+        <!-- Lista de bebidas -->
+        <div id="beverageList">
+          <!-- Linha para Coca Cola -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="Coca Cola"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/coca-cola.png"
+                alt="Coca Cola"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">Coca Cola</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="Coca Cola"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="Coca Cola">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="Coca Cola"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Linha para Coca Zero -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="Coca Zero"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/coca-zero.png"
+                alt="Coca Zero"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">Coca Zero</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="Coca Zero"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="Coca Zero">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="Coca Zero"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Linha para Guaraná -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="Guaraná"
+          >
+            <div class="flex items-center gap-2">
+              <img src="imagens/guarana.png" alt="Guaraná" class="w-12 h-12" />
+              <div>
+                <p class="font-bold">Guaraná</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="Guaraná"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="Guaraná">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="Guaraná"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Linha para Suco de Laranja -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="Suco de Laranja"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/suco-laranja.png"
+                alt="Suco de Laranja"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">Suco de Laranja</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="Suco de Laranja"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="Suco de Laranja">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="Suco de Laranja"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Linha para Suco de Uva -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="Suco de Uva"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/suco-uva.png"
+                alt="Suco de Uva"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">Suco de Uva</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="Suco de Uva"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="Suco de Uva">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="Suco de Uva"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Área de exibição do valor final -->
+        <div class="mt-4 text-center font-bold">
+          <span id="finalPriceText">Total: R$ 19,90</span>
+        </div>
+        <!-- Botões do modal -->
+        <div class="mt-4">
+          <!-- Link que se comporta como botão; seu href e texto serão atualizados dinamicamente -->
+          <a
+            id="modalFinalize"
+            href="https://exemplo.com/checkout-19.90"
+            class="block w-full bg-green-600 text-white text-center rounded p-2"
+          >
+            Finalizar Pedido - R$ 19,90
+          </a>
+          <button id="cancelPopup" class="mt-2 w-full bg-gray-300 rounded p-2">
+            Não, obrigado
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts de lógica dos lanches -->
+    <script>
+      function getGlobalTotal() {
+        let total = 0;
+        document.querySelectorAll(".card").forEach((card) => {
+          total += parseInt(card.getAttribute("data-count")) || 0;
+        });
+        return total;
+      }
+      function updateCartPrice() {
+        const total = getGlobalTotal();
+        const cartPriceElem = document.getElementById("cartPrice");
+        if (total === 1) {
+          cartPriceElem.innerText = "R$ 9,95";
+        } else if (total === 2) {
+          cartPriceElem.innerText = "R$ 19,90";
+        } else {
+          cartPriceElem.innerText = "R$ 0,00";
+        }
+        document.getElementById("cartBadge").innerText = total;
+      }
+      function updateBadges() {
+        document.querySelectorAll(".card").forEach((card) => {
+          const badge = card.querySelector(".badge");
+          const count = parseInt(card.getAttribute("data-count")) || 0;
+          if (badge) badge.remove();
+          if (count > 0) {
+            const newBadge = document.createElement("span");
+            newBadge.className = "badge";
+            newBadge.innerText = count;
+            card.appendChild(newBadge);
+          }
+        });
+      }
+      // Função para alternar (toggle) a contagem do card clicado
+      function toggleCard(card) {
+        let oldCount = parseInt(card.getAttribute("data-count")) || 0;
+        const allCards = document.querySelectorAll(".card");
+
+        // Obtém todos os cards que estão selecionados (com count 1 ou 2)
+        let selectedCards = [...allCards].filter(
+          (c) => parseInt(c.getAttribute("data-count")) > 0
+        );
+        let globalTotal = selectedCards.reduce(
+          (sum, c) => sum + parseInt(c.getAttribute("data-count")),
+          0
+        );
+
+        if (oldCount === 0) {
+          // Se não há unidades, pode adicionar 1
+          if (globalTotal < 2) {
+            card.setAttribute("data-count", 1);
+          }
+        } else if (oldCount === 1) {
+          // Se o card já tem 1 unidade, aumenta para 2 se não houver outros com 1
+          if (globalTotal < 2) {
+            card.setAttribute("data-count", 2);
+          } else {
+            // Se já tem 2 unidades no total, desmarcar este card
+            card.setAttribute("data-count", 0);
+          }
+        } else if (oldCount === 2) {
+          // Se o card já tem 2 unidades, ao clicar desmarca
+          card.setAttribute("data-count", 1);
+        }
+
+        // Atualiza a exibição das contagens
+        updateCounts();
+
+        // Atualiza o botão de finalizar pedido
+        if (getGlobalTotal() === 2) {
+          document.getElementById("finalizarPedido").classList.remove("hidden");
+        } else {
+          document.getElementById("finalizarPedido").classList.add("hidden");
+        }
+      }
+
+      // Função para atualizar a exibição das contagens
+      function updateCounts() {
+        document.querySelectorAll(".card").forEach((card) => {
+          let count = card.getAttribute("data-count") || 0;
+          // Supondo que você tenha um elemento para exibir a quantidade
+          let countDisplay = card.querySelector(".count-display"); // Ajuste o seletor conforme sua estrutura
+          if (countDisplay) {
+            countDisplay.textContent = count > 0 ? count : ""; // Atualiza o texto com a contagem ou limpa
+          }
+        });
+      }
+
+      // Adicionando os ouvintes de eventos
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleCard(card);
+          updateBadges();
+          updateCartPrice();
+        });
+      });
+
+      //Explicações do codigo 👇🏻
+      // o seguinte trecho ordena com quantos lanches vai aparecer o botão de finalizar pedido = if (getGlobalTotal() === 2) {
+      //
+      //
+      //
+      //
+      // Substitua o listener de clique para incluir event.stopPropagation()
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", (event) => {
+          event.stopPropagation(); // Evita que o clique seja propagado para elementos filhos
+          toggleCard(card);
+          updateBadges();
+          updateCartPrice();
+          if (getGlobalTotal() === 2) {
+            document
+              .getElementById("finalizarPedido")
+              .classList.remove("hidden");
+          } else {
+            document.getElementById("finalizarPedido").classList.add("hidden");
+          }
+        });
+      });
+      // Removemos o alert final do pedido, pois agora o fluxo é pelo popup de bebidas.
+    </script>
+
+    <!-- Scripts do Popup de Bebida e Checkout Dinâmico -->
+    <script>
+      // Variáveis para controle do upsell de bebidas
+      // Neste exemplo, permitimos apenas 0 ou 1 unidade por pedido
+      let selectedBeverage = null; // Nome da bebida selecionada (se houver)
+      const beverageQuantities = {};
+      // Links de checkout: um para o pedido sem bebida e outro para o pedido com bebida
+      const checkoutLinkNoBeverage = "https://exemplo.com/checkout-19.90";
+      const checkoutLinkWithBeverage = "https://exemplo.com/checkout-26.80";
+      const basePrice = 19.9;
+      const beveragePrice = 6.9;
+      // Inicializa a quantidade de cada bebida para 0
+      document.querySelectorAll("#beverageList .quantity").forEach((span) => {
+        const drink = span.getAttribute("data-drink");
+        beverageQuantities[drink] = 0;
+      });
+      // Atualiza os controles das bebidas: se uma bebida estiver selecionada, desabilita os botões de outras opções
+      function updateBeverageOptions() {
+        if (selectedBeverage) {
+          // Para a bebida selecionada, desabilita o botão “+” se a quantidade for 1
+          document
+            .querySelectorAll(
+              `#beverageList .increase[data-drink="${selectedBeverage}"]`
+            )
+            .forEach((btn) => {
+              if (beverageQuantities[selectedBeverage] >= 1) {
+                btn.disabled = true;
+                btn.classList.add("opacity-50");
+              }
+            });
+          // Desabilita controles para as outras bebidas
+          document
+            .querySelectorAll("#beverageList .increase")
+            .forEach((btn) => {
+              if (btn.getAttribute("data-drink") !== selectedBeverage) {
+                btn.disabled = true;
+                btn.classList.add("opacity-50");
+              }
+            });
+          document
+            .querySelectorAll("#beverageList .decrease")
+            .forEach((btn) => {
+              if (btn.getAttribute("data-drink") !== selectedBeverage) {
+                btn.disabled = true;
+                btn.classList.add("opacity-50");
+              }
+            });
+        } else {
+          // Se nenhuma bebida estiver selecionada, habilita todas as opções
+          document
+            .querySelectorAll(
+              "#beverageList .increase, #beverageList .decrease"
+            )
+            .forEach((btn) => {
+              btn.disabled = false;
+              btn.classList.remove("opacity-50");
+            });
+        }
+        updateFinalPrice();
+      }
+      // Atualiza o valor final e o link de checkout do modal
+      function updateFinalPrice() {
+        let finalPrice = basePrice;
+        if (selectedBeverage && beverageQuantities[selectedBeverage] >= 1) {
+          finalPrice += beveragePrice;
+        }
+        document.getElementById(
+          "finalPriceText"
+        ).innerText = `Total: R$ ${finalPrice.toFixed(2)}`;
+        const modalFinalize = document.getElementById("modalFinalize");
+        modalFinalize.innerText = `Finalizar Pedido - R$ ${finalPrice.toFixed(
+          2
+        )}`;
+        modalFinalize.href =
+          finalPrice === basePrice
+            ? checkoutLinkNoBeverage
+            : checkoutLinkWithBeverage;
+      }
+      // Eventos para os botões “+”
+      document.querySelectorAll("#beverageList .increase").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const drink = btn.getAttribute("data-drink");
+          if (!selectedBeverage) {
+            selectedBeverage = drink;
+          } else if (selectedBeverage !== drink) {
+            return;
+          }
+          if (beverageQuantities[drink] < 1) {
+            beverageQuantities[drink]++;
+          }
+          document.querySelector(
+            `#beverageList .quantity[data-drink="${drink}"]`
+          ).innerText = beverageQuantities[drink];
+          updateBeverageOptions();
+        });
+      });
+      // Eventos para os botões “–”
+      document.querySelectorAll("#beverageList .decrease").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const drink = btn.getAttribute("data-drink");
+          if (selectedBeverage !== drink) {
+            return;
+          }
+          if (beverageQuantities[drink] > 0) {
+            beverageQuantities[drink]--;
+            document.querySelector(
+              `#beverageList .quantity[data-drink="${drink}"]`
+            ).innerText = beverageQuantities[drink];
+            if (beverageQuantities[drink] === 0) {
+              selectedBeverage = null;
+            }
+            updateBeverageOptions();
+          }
+        });
+      });
+      // Ao clicar no botão Finalizar do modal
+      document
+        .getElementById("modalFinalize")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          // Aqui chamamos a função finalizeOrder (pode ser substituída por redirecionamento)
+          const beverage = selectedBeverage
+            ? {
+                name: selectedBeverage,
+                quantity: beverageQuantities[selectedBeverage],
+              }
+            : null;
+          // Exemplo: exibe um alert com o resumo – em produção, redirecione com window.location.href
+          let summary = "Pedido finalizado:\n";
+          // Aqui você pode incluir os lanches selecionados se desejar
+          summary += document.getElementById("finalPriceText").innerText;
+          if (beverage && beverage.quantity > 0) {
+            summary += `\nBebida: ${beverage.name} x${beverage.quantity} (R$ 6,90 cada)`;
+          }
+          alert(summary);
+          // Redireciona para o checkout conforme o link atualizado
+          window.location.href = document.getElementById("modalFinalize").href;
+          document.getElementById("popupModal").style.display = "none";
+        });
+      // Se o usuário clicar em "Não, obrigado"
+      document.getElementById("cancelPopup").addEventListener("click", () => {
+        // Finaliza sem bebida – exemplo com alert, depois redireciona
+        alert("Pedido finalizado sem bebida.\nTotal: R$ 19,90");
+        window.location.href = checkoutLinkNoBeverage;
+        document.getElementById("popupModal").style.display = "none";
+      });
+      // Ao clicar no botão Finalizar Pedido (dos lanches), exibe o modal de bebidas
       document
         .getElementById("finalizarPedido")
         .addEventListener("click", () => {
-          const selected = [];
-          document.querySelectorAll(".card").forEach((card) => {
-            const count = parseInt(card.getAttribute("data-count")) || 0;
-            if (count > 0) {
-              const lanche = card.querySelector("p.font-bold").innerText;
-              selected.push(`${lanche} (${count}x)`);
-            }
-          });
-          alert(
-            `Pedido finalizado:\n${selected.join("\n")}\nTotal: ${
-              document.getElementById("cartPrice").innerText
-            }`
-          );
+          selectedBeverage = null;
+          document
+            .querySelectorAll("#beverageList .quantity")
+            .forEach((span) => {
+              const drink = span.getAttribute("data-drink");
+              beverageQuantities[drink] = 0;
+              span.innerText = "0";
+            });
+          updateBeverageOptions();
+          document.getElementById("popupModal").style.display = "flex";
         });
     </script>
 
+    <!-- Preloader -->
     <style>
       /* Oculta o conteúdo da página até o preloader desaparecer */
       #conteudo {
         display: none;
       }
-
       /* Estilo do Preloader */
       #preloader {
         position: fixed;
@@ -558,26 +1049,23 @@
         left: 0;
         width: 100%;
         height: 100vh;
-        background-color: #fff; /* Fundo branco */
+        background-color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 9999;
       }
-
       /* Ajuste do tamanho do GIF */
       #preloader img {
-        width: 150px; /* Ajuste conforme necessário */
+        width: 150px;
       }
     </style>
-
     <!-- Preloader (GIF de carregamento) -->
     <div id="preloader">
       <img src="imagens/gif-carregamento-02.gif" alt="Carregando..." />
     </div>
-
     <script>
-      // Aguarda 3.5 segundos antes de esconder o preloader e mostrar a página
+      // Aguarda 3.5 segundos após o carregamento da página para ocultar o preloader e exibir o conteúdo
       window.addEventListener("load", () => {
         setTimeout(() => {
           document.getElementById("preloader").style.display = "none";
