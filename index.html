@@ -1121,7 +1121,6 @@
           if (beverage && beverage.quantity > 0) {
             summary += `\nBebida: ${beverage.name} x${beverage.quantity} (R$ 6,90 cada)`;
           }
-          alert(summary);
           // Redireciona para o checkout conforme o link atualizado
           window.location.href = document.getElementById("modalFinalize").href;
           document.getElementById("popupModal").style.display = "none";
@@ -1129,7 +1128,6 @@
       // Se o usuário clicar em "Não, obrigado"
       document.getElementById("cancelPopup").addEventListener("click", () => {
         // Finaliza sem bebida – exemplo com alert, depois redireciona
-        alert("Pedido finalizado sem bebida.\nTotal: R$ 19,90");
         window.location.href = checkoutLinkNoBeverage;
         document.getElementById("popupModal").style.display = "none";
       });
