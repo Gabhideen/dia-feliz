@@ -467,15 +467,36 @@
     </button>
     <br />
     <!-- Rodapé -->
-    <footer class="bg-red-600 text-white text-center p-4">
-      <img
-        src="imagens/logo-mc-skate.png"
-        alt="Rodapé McDonald's"
-        class="mx-auto w-32 h-auto"
-      />
-      <p class="mt-2 text-sm">
-        © 2025 McDonald's - Todos os direitos reservados
-      </p>
+    <footer class="bg-red-700 text-white">
+      <div
+        class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center"
+      >
+        <!-- Bloco da esquerda: Logo e Nome (lado a lado) -->
+        <div class="flex items-center gap-4">
+          <img
+            src="imagens/logo-mc-skate.png"
+            alt="McDonald's"
+            class="w-32 h-auto"
+          />
+          <span class="text-2xl font-bold">McDonald's</span>
+        </div>
+        <!-- Bloco central: Textos de credibilidade (não clicáveis) -->
+        <div class="mt-6 md:mt-0 text-center">
+          <p class="text-sm">
+            A qualidade que você conhece, a confiança que você merece.
+          </p>
+          <p class="text-xs mt-1">
+            Comprometido com o sabor e a excelência desde 1955.
+          </p>
+        </div>
+        <!-- Bloco da direita: Informações adicionais -->
+        <div class="mt-6 md:mt-0 flex flex-col items-center md:items-end gap-2">
+          <p class="text-sm">
+            © 2025 McDonald's. Todos os direitos reservados.
+          </p>
+          <p class="text-xs">Orgulhosamente servindo felicidade.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Lógica de seleção, badges e atualização do preço dos lanches -->
@@ -829,7 +850,7 @@
           <!-- Link que se comporta como botão; seu href e texto serão atualizados dinamicamente -->
           <a
             id="modalFinalize"
-            href="https://exemplo.com/checkout-19.90"
+            href="checkout-mc-donalds/1-etapa-19,90/index.html"
             class="block w-full bg-green-600 text-white text-center rounded p-2"
           >
             Finalizar Pedido - R$ 19,90
@@ -972,7 +993,8 @@
       let selectedBeverage = null; // Nome da bebida selecionada (se houver)
       const beverageQuantities = {};
       // Links de checkout: um para o pedido sem bebida e outro para o pedido com bebida
-      const checkoutLinkNoBeverage = "https://exemplo.com/checkout-19.90";
+      const checkoutLinkNoBeverage =
+        "checkout-mc-donalds/1-etapa-19,90/index.html";
       const checkoutLinkWithBeverage = "https://exemplo.com/checkout-26.80";
       const basePrice = 19.9;
       const beveragePrice = 6.9;
@@ -1141,7 +1163,7 @@
         left: 0;
         width: 100%;
         height: 100vh;
-        background-color: #fff;
+        background-color: #fbc21b;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1149,12 +1171,12 @@
       }
       /* Ajuste do tamanho do GIF */
       #preloader img {
-        width: 150px;
+        width: 750px;
       }
     </style>
     <!-- Preloader (GIF de carregamento)-->
     <div id="preloader">
-      <img src="imagens/gif-carregamento-02.gif" alt="Carregando..." />
+      <img src="imagens/gif-mc-carregando-lanche.gif" alt="Carregando..." />
     </div>
     <script>
       // Aguarda 3.5 segundos após o carregamento da página para ocultar o preloader e exibir o conteúdo
