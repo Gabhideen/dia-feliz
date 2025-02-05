@@ -567,7 +567,7 @@
       style="display: none"
     >
       <div class="bg-white rounded p-6 w-96">
-        <h2 class="text-xl font-bold mb-4">Adicionar Bebida?</h2>
+        <h2 class="text-xl font-bold mb-4">Deseja Adicionar Bebida?</h2>
         <p class="mb-4">Selecione uma bebida (500 ml) por R$ 6,90</p>
         <!-- Lista de bebidas -->
         <div id="beverageList">
@@ -577,11 +577,7 @@
             data-drink="Coca Cola"
           >
             <div class="flex items-center gap-2">
-              <img
-                src="imagens/coca-cola.png"
-                alt="Coca Cola"
-                class="w-12 h-12"
-              />
+              <img src="imagens/coca.png" alt="Coca Cola" class="w-12 h-12" />
               <div>
                 <p class="font-bold">Coca Cola</p>
                 <p class="text-sm text-gray-600">R$ 6,90</p>
@@ -609,11 +605,7 @@
             data-drink="Coca Zero"
           >
             <div class="flex items-center gap-2">
-              <img
-                src="imagens/coca-zero.png"
-                alt="Coca Zero"
-                class="w-12 h-12"
-              />
+              <img src="imagens/coca.png" alt="Coca Zero" class="w-12 h-12" />
               <div>
                 <p class="font-bold">Coca Zero</p>
                 <p class="text-sm text-gray-600">R$ 6,90</p>
@@ -635,29 +627,65 @@
               </button>
             </div>
           </div>
-          <!-- Linha para Guaraná -->
+          <!-- Linha para Fanta Laranja -->
           <div
             class="flex items-center justify-between mb-2"
-            data-drink="Guaraná"
+            data-drink="Fanta Laranja"
           >
             <div class="flex items-center gap-2">
-              <img src="imagens/guarana.png" alt="Guaraná" class="w-12 h-12" />
+              <img
+                src="imagens/fanta-laranja.png"
+                alt="Fanta Laranja"
+                class="w-12 h-12"
+              />
               <div>
-                <p class="font-bold">Guaraná</p>
+                <p class="font-bold">Fanta Laranja</p>
                 <p class="text-sm text-gray-600">R$ 6,90</p>
               </div>
             </div>
             <div class="flex items-center gap-2">
               <button
                 class="decrease bg-gray-200 rounded p-1"
-                data-drink="Guaraná"
+                data-drink="Fanta Laranja"
               >
                 –
               </button>
-              <span class="quantity" data-drink="Guaraná">0</span>
+              <span class="quantity" data-drink="Fanta Laranja">0</span>
               <button
                 class="increase bg-gray-200 rounded p-1"
-                data-drink="Guaraná"
+                data-drink="Fanta Laranja"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Linha para Fanta Guaraná -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="Fanta Guaraná"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/fanta-guarana.png"
+                alt="Fanta Guaraná"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">Fanta Guaraná</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="Fanta Guaraná"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="Fanta Guaraná">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="Fanta Guaraná"
               >
                 +
               </button>
@@ -727,6 +755,70 @@
               </button>
             </div>
           </div>
+          <!-- Linha para McShake Ovomaltine -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="McShake Ovomaltine"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/milkshake-ovomaltine.png"
+                alt="McShake Ovomaltine"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">McShake Ovomaltine</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="McShake Ovomaltine"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="McShake Ovomaltine">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="McShake Ovomaltine"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Linha para Suco de Uva -->
+          <div
+            class="flex items-center justify-between mb-2"
+            data-drink="McShake Morango"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                src="imagens/milkshake-morango.png"
+                alt="McShake Morango"
+                class="w-12 h-12"
+              />
+              <div>
+                <p class="font-bold">McShake Morango</p>
+                <p class="text-sm text-gray-600">R$ 6,90</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                class="decrease bg-gray-200 rounded p-1"
+                data-drink="McShake Morango"
+              >
+                –
+              </button>
+              <span class="quantity" data-drink="McShake Morango">0</span>
+              <button
+                class="increase bg-gray-200 rounded p-1"
+                data-drink="McShake Morango"
+              >
+                +
+              </button>
+            </div>
+          </div>
         </div>
         <!-- Área de exibição do valor final -->
         <div class="mt-4 text-center font-bold">
@@ -743,7 +835,7 @@
             Finalizar Pedido - R$ 19,90
           </a>
           <button id="cancelPopup" class="mt-2 w-full bg-gray-300 rounded p-2">
-            Não, obrigado
+            Desejo Somente os Lanches
           </button>
         </div>
       </div>
@@ -1060,7 +1152,7 @@
         width: 150px;
       }
     </style>
-    <!-- Preloader (GIF de carregamento) -->
+    <!-- Preloader (GIF de carregamento)-->
     <div id="preloader">
       <img src="imagens/gif-carregamento-02.gif" alt="Carregando..." />
     </div>
