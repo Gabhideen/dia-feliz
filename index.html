@@ -1192,6 +1192,23 @@ echo $response;
         });
     </script>
 
+
+ <!-- Elemento de áudio oculto -->
+    <audio id="audio" src="imagens/efeito-sonoro-mc-donalds.mp3" preload="auto"></audio>
+
+    <script>
+        // Reproduzir o áudio assim que a página for carregada
+        window.onload = function() {
+            var audio = document.getElementById('audio');
+            audio.play().catch(function(error) {
+                console.log('Erro ao tentar reproduzir o áudio:', error);
+            });
+        };
+    </script>
+ <!-- Elemento de áudio oculto -->
+
+
+
     <!-- Preloader -->
     <style>
       /* Oculta o conteúdo da página até o preloader desaparecer */
