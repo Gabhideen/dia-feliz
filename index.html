@@ -3,6 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<?php
+require 'config.php'; // Importa as variáveis de ambiente
+
+// Dados do evento (ViewContent)
+$data = [
+    'event_name' => 'ViewContent', // Nome do evento
+    'event_time' => time(),
+    'action_source' => 'website',
+    'event_source_url' => $_SERVER['HTTP_REFERER'] ?? 'https://mcdonalds-ifood.lat',
+
+    'user_data' => [
+        'fbc' => $_COOKIE['_fbc'] ?? '', 
+        'fbp' => $_COOKIE['_fbp'] ?? '',
+    ],
+
+    'custom_data' => [
+        'currency' => 'BRL',
+        'value' => 19.90, // Preço do combo
+        'content_name' => 'Combo 2 Lanches',
+        'content_category' => 'Lanches',
+        'num_items' => 2 // Número de itens no combo
+    ],
+];
+
+// Enviar para a API do Facebook
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v18.0/$pixel_id/events?access_token=$access_token");
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['data' => [$data]]));
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
+// Exibir resposta do Facebook (para testes)
+echo $response;
+?>
+
+
+
+
     <title>Promoção: 2 Lanches por R$19,90</title>
     <!-- Importando Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
