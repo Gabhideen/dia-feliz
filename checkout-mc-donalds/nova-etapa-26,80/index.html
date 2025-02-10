@@ -58,23 +58,7 @@ function getCookie(name) {
     return match ? match[2] : null;
 }
 
-// Adiciona evento ao botão de checkout
-document.addEventListener("DOMContentLoaded", function() {
-    let checkoutBtn = document.getElementById("confirmar");
-    if (checkoutBtn) {
-        let checkoutTriggered = false;
-        checkoutBtn.addEventListener("click", function() {
-            if (!checkoutTriggered) {
-                checkoutTriggered = true;
-                // Gerar um event_id único
-                let eventId = 'initiate_checkout_' + Date.now();
-                
-                // Dispara o evento para o Pixel com o event_id
-                fbq('track', 'InitiateCheckout', { event_id: eventId });
-                
-                // Dispara o evento para a API com o mesmo event_id
-                enviarEventoAPI('InitiateCheckout', 26.80, eventId);
-            }
+
         });
     }
 });
