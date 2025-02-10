@@ -1,20 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-PZGDSCMH");
-    </script>
-    <!-- End Google Tag Manager -->
+
+
+<!-- Pixel do Facebook + Api de Conversão -->    
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '498593319599777'); // ID do Pixel
+fbq('track', 'PageView'); // Evento de visualização da página
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=498593319599777&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<script>
+// Função para enviar evento "InitiateCheckout" para o Pixel e API de Conversão
+function iniciarCheckout() {
+    fbq('track', 'InitiateCheckout'); // Evento para o Pixel do Facebook
+
+    // Dados para a API de Conversão
+    const eventData = {
+        event_name: 'InitiateCheckout',
+        event_time: Math.floor(Date.now() / 1000),
+        action_source: 'website',
+        event_source_url: window.location.href,
+        user_data: {
+            fbp: getCookie('_fbp') || '',
+            fbc: getCookie('_fbc') || '',
+        },
+        custom_data: {
+            currency: 'BRL',
+            value: 19.90 // Valor do pedido (ajuste conforme necessário)
+        }
+    };
+
+    // Enviar para a API de Conversão do Facebook
+    fetch('https://graph.facebook.com/v18.0/498593319599777/events?access_token=EAAYITr6Mn34BOzRX5CqjsaIgSsg7PKxxLGGZA75Qu5afnomAptFWKxZCHoCgknYx3pxU7EIqZCR8a19vcT7pZCbkUTcjNyWdvFBXUzwfIeUsxfBRkx8yGydEH8ZBbZBm8x9aVtSZAyNi6oxUQ5kNmBMauyrjwL0hDdDk1i0ZCZBVKfHJ06M9denPWZBjjbCv9jGeZCqSAZDZD', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: [eventData] })
+    })
+    .then(response => response.json())
+    .then(data => console.log('API de Conversão:', data))
+    .catch(error => console.error('Erro ao enviar para API:', error));
+}
+
+// Função para obter cookies do navegador
+function getCookie(name) {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+}
+</script>
+
+
+<!-- Pixel do Facebook + Api de Conversão -->    
+
 
     <meta charset="UTF-8" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
