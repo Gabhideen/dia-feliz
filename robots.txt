@@ -1,0 +1,51 @@
+User-agent: *
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+User-agent: wget
+Disallow: /
+User-agent: Teleport
+Disallow: /
+User-agent: WebCopier
+Disallow: /
+User-agent: WebZip
+Disallow: /
+User-agent: Web2Zip
+Disallow: /
+User-agent: SiteSnagger
+Disallow: /
+User-agent: NetMechanic
+Disallow: /
+User-agent: Offline Explorer
+Disallow: /
+User-agent: CherryPicker
+Disallow: /
+User-agent: EmailCollector
+Disallow: /
+User-agent: ExtractorPro
+Disallow: /
+User-agent: SiteSucker
+Disallow: /
+User-agent: WebStripper
+Disallow: /
+User-agent: WebReaper
+Disallow: /
+User-agent: Download Ninja
+Disallow: /
+User-agent: PageGrabber
+Disallow: /
+User-agent: Web Downloader
+Disallow: /
+User-agent: DownThemAll
+Disallow: /
+User-agent: WebCopier Pro
+Disallow: /
+User-agent: WebAuto
+Disallow: /
+User-agent: HTTP Weazel
+Disallow: /
+User-agent: BlackWidow
+Disallow: /
+User-agent: HTTPTrack
+Disallow: /
