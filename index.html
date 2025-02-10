@@ -1174,18 +1174,27 @@
 
 
  <!-- Elemento de áudio oculto -->
-    <audio id="audio" src="imagens/efeito-sonoro-mc-donalds.mp3" preload="auto"></audio>
+    <audio
+      id="audio"
+      src="imagens/efeito-sonoro-mc-donalds.mp3"
+      preload="auto"
+    ></audio>
+
+    <!-- Botão para finalizar o pedido -->
+    <button id="finalizarPedido">Finalizar Pedido</button>
 
     <script>
-        // Reproduzir o áudio assim que a página for carregada
-        window.onload = function() {
-            var audio = document.getElementById('audio');
-            audio.play().catch(function(error) {
-                console.log('Erro ao tentar reproduzir o áudio:', error);
-            });
-        };
+      // Reproduzir o áudio ao clicar no botão "finalizarPedido"
+      document
+        .getElementById("finalizarPedido")
+        .addEventListener("click", function () {
+          var audio = document.getElementById("audio");
+          audio.play().catch(function (error) {
+            console.log("Erro ao tentar reproduzir o áudio:", error);
+          });
+        });
     </script>
- <!-- Elemento de áudio oculto -->
+    <!-- Elemento de áudio oculto -->
 
 
 
