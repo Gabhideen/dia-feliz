@@ -13,7 +13,7 @@ $data = [
     'event_name' => 'ViewContent', // Nome do evento
     'event_time' => time(),
     'action_source' => 'website',
-    'event_source_url' => $_SERVER['HTTP_REFERER'] ?? 'https://mcdonalds-ifood.lat',
+    'event_source_url' => $_SERVER['HTTP_REFERER'] ?? 'https://mcdonalds.ifood.lat',
 
     'user_data' => [
         'fbc' => $_COOKIE['_fbc'] ?? '', 
