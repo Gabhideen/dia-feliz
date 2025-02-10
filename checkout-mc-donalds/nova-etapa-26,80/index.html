@@ -23,7 +23,7 @@
 }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
 fbq('init', '498593319599777'); // ID do Pixel
-fbq('track', 'AddToCart'); // Evento AddToCart ao carregar a página
+fbq('track', 'AddToCart'); // Evento AddToCart disparado ao carregar a página
 </script>
 <noscript>
   <img height="1" width="1" style="display:none" 
@@ -32,12 +32,12 @@ fbq('track', 'AddToCart'); // Evento AddToCart ao carregar a página
 <!-- End Meta Pixel Code -->
 
 <script>
-// Função para enviar eventos para a API de Conversão do Facebook
+// Função para enviar eventos para a API de Conversão do Facebook (caso seja necessária para outros eventos)
 function enviarEventoAPI(evento, valor, eventId) {
     const eventData = {
         event_name: evento,
         event_time: Math.floor(Date.now() / 1000),
-        event_id: eventId, // Usado para deduplicação (caso necessário)
+        event_id: eventId, // Usado para deduplicação, se necessário
         action_source: 'website',
         event_source_url: window.location.href,
         user_data: {
@@ -50,7 +50,7 @@ function enviarEventoAPI(evento, valor, eventId) {
         }
     };
 
-    // Enviar para a API de Conversão do Facebook
+    // Envia os dados para a API de Conversão do Facebook
     fetch('https://graph.facebook.com/v18.0/498593319599777/events?access_token=EAAYITr6Mn34BOzRX5CqjsaIgSsg7PKxxLGGZA75Qu5afnomAptFWKxZCHoCgknYx3pxU7EIqZCR8a19vcT7pZCbkUTcjNyWdvFBXUzwfIeUsxfBRkx8yGydEH8ZBbZBm8x9aVtSZAyNi6oxUQ5kNmBMauyrjwL0hDdDk1i0ZCZBVKfHJ06M9denPWZBjjbCv9jGeZCqSAZDZD', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -61,14 +61,15 @@ function enviarEventoAPI(evento, valor, eventId) {
     .catch(error => console.error('Erro ao enviar para API:', error));
 }
 
-// Função para obter cookies do navegador
+// Função para obter cookies do navegador (útil para envio de dados do usuário)
 function getCookie(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     return match ? match[2] : null;
 }
 
-// O disparo customizado do evento "InitiateCheckout" foi removido.
-// Aguardaremos a função nativa do Pixel do Facebook para o checkout do Vega Marcar.
+// OBSERVAÇÃO:
+// Removemos o trecho que disparava o evento "InitiateCheckout" via clique.
+// Assim, aguardaremos que a função nativa do Pixel do Facebook no checkout do Vega Marcar envie esse evento.
 </script>
 
 
