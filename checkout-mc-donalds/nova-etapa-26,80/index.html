@@ -7,11 +7,11 @@
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
+n.callMethod.apply(n,arguments):n.queue.push(arguments)}; 
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0'; 
+n.queue=[];t=b.createElement(e);t.async=!0; 
+t.src=v;s=b.getElementsByTagName(e)[0]; 
+s.parentNode.insertBefore(t,s)}(window, document,'script', 
 'https://connect.facebook.net/en_US/fbevents.js');
 
 fbq('init', '498593319599777'); // ID do Pixel
@@ -24,10 +24,11 @@ src="https://www.facebook.com/tr?id=498593319599777&ev=AddToCart&noscript=1"
 
 <script>
 // Função para enviar eventos para a API de Conversão do Facebook
-function enviarEventoAPI(evento, valor) {
+function enviarEventoAPI(evento, valor, eventId) {
     const eventData = {
         event_name: evento,
         event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId, // Usando o mesmo event_id para deduplicação
         action_source: 'website',
         event_source_url: window.location.href,
         user_data: {
@@ -57,17 +58,28 @@ function getCookie(name) {
     return match ? match[2] : null;
 }
 
-// Adiciona evento ao botão de checkout SEM CRIAR NADA NOVO
+// Adiciona evento ao botão de checkout
 document.addEventListener("DOMContentLoaded", function() {
     let checkoutBtn = document.getElementById("confirmar");
     if (checkoutBtn) {
+        let checkoutTriggered = false;
         checkoutBtn.addEventListener("click", function() {
-            fbq('track', 'InitiateCheckout'); // Evento para o Pixel do Facebook
-            enviarEventoAPI('InitiateCheckout', 26.80); // Envia para a API de Conversão
+            if (!checkoutTriggered) {
+                checkoutTriggered = true;
+                // Gerar um event_id único
+                let eventId = 'initiate_checkout_' + Date.now();
+                
+                // Dispara o evento para o Pixel com o event_id
+                fbq('track', 'InitiateCheckout', { event_id: eventId });
+                
+                // Dispara o evento para a API com o mesmo event_id
+                enviarEventoAPI('InitiateCheckout', 26.80, eventId);
+            }
         });
     }
 });
 </script>
+
 
 
     
