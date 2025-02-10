@@ -4,8 +4,6 @@
 
 
 <!-- Pixel do Facebook + Api de Conversão -->    
-
-
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -18,21 +16,23 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 
 fbq('init', '498593319599777'); // ID do Pixel
-fbq('track', 'PageView'); // Evento de visualização da página
+fbq('track', 'AddToCart'); // Evento AddToCart ao carregar a página
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=498593319599777&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=498593319599777&ev=AddToCart&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
 <script>
-// Função para enviar evento "InitiateCheckout" para o Pixel e API de Conversão
-function iniciarCheckout() {
-    fbq('track', 'InitiateCheckout'); // Evento para o Pixel do Facebook
+// Enviar evento AddToCart para a API de Conversão ao carregar a página
+window.onload = function() {
+    enviarEventoAPI('AddToCart', 19.90); // Ajuste o valor conforme necessário
+};
 
-    // Dados para a API de Conversão
+// Função para enviar eventos para a API de Conversão do Facebook
+function enviarEventoAPI(evento, valor) {
     const eventData = {
-        event_name: 'InitiateCheckout',
+        event_name: evento,
         event_time: Math.floor(Date.now() / 1000),
         action_source: 'website',
         event_source_url: window.location.href,
@@ -42,7 +42,7 @@ function iniciarCheckout() {
         },
         custom_data: {
             currency: 'BRL',
-            value: 19.90 // Valor do pedido (ajuste conforme necessário)
+            value: valor // Valor do pedido
         }
     };
 
@@ -62,8 +62,18 @@ function getCookie(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     return match ? match[2] : null;
 }
-</script>
 
+// Adiciona evento ao botão de checkout SEM CRIAR NADA NOVO
+document.addEventListener("DOMContentLoaded", function() {
+    let checkoutBtn = document.getElementById("confirmar");
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", function() {
+            fbq('track', 'InitiateCheckout'); // Evento para o Pixel do Facebook
+            enviarEventoAPI('InitiateCheckout', 19.90); // Envia para a API de Conversão
+        });
+    }
+});
+</script>
 
 <!-- Pixel do Facebook + Api de Conversão -->    
 
